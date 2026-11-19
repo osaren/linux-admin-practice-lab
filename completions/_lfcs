@@ -1,0 +1,33 @@
+#compdef lfcs ./bin/lfcs
+
+_lfcs_values() {
+  local kind=$1 root
+  root=${LFCS_ROOT:-${${(%):-%x}:A:h:h}}
+  [[ -x "$root/bin/lfcs" ]] || return 1
+  "$root/bin/lfcs" _complete "$kind" 2>/dev/null
+}
+
+_lfcs() {
+  local -a commands values
+  commands=(${(z)"$(_lfcs_values commands)"})
+  if (( CURRENT == 2 )); then
+    _describe 'lfcs command' commands
+    return
+  fi
+  case $words[2] in
+    lab|grade|reset|solution|hint)
+      values=(${(z)"$(_lfcs_values scenarios)"}); _describe 'scenario' values ;;
+    shell)
+      values=(${(z)"$(_lfcs_values hosts)"}); _describe 'host' values ;;
+    mini|mini-grade|mini-reset)
+      values=(${(z)"$(_lfcs_values minis)"}); _describe 'mini suite' values ;;
+    mock|mock-grade|mock-reset)
+      values=(${(z)"$(_lfcs_values mocks)"}); _describe 'mock suite' values ;;
+    list)
+      _values 'filter' 1 2 3 4 5 operations networking storage commands users special ;;
+    start|stop)
+      _values 'host' lfcs-special ;;
+  esac
+}
+
+_lfcs "$@"

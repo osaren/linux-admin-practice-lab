@@ -1,0 +1,32 @@
+minimumLimaVersion: 2.0.0
+vmType: vz
+arch: aarch64
+images:
+  - location: https://cloud-images.ubuntu.com/minimal/releases/noble/release-20261105/ubuntu-24.04-minimal-cloudimg-arm64.img
+    digest: "sha256:3dc8370d923978d4b610fa7964d1b36ba040eefb43198809ca5bc8ac51777b18"
+    arch: aarch64
+os: Linux
+cpus: 2
+memory: 2GiB
+disk: 12GiB
+mounts: []
+containerd:
+  system: false
+  user: false
+ssh:
+  loadDotSSHPubKeys: false
+  forwardAgent: false
+hostResolver:
+  enabled: true
+  ipv6: true
+portForwards:
+  - guestIP: "0.0.0.0"
+    guestIPMustBeZero: false
+    proto: any
+    ignore: true
+provision:
+  - mode: boot
+    script: |
+      if [ -x /usr/local/lib/lfcs/ensure-host-access.sh ]; then
+        /usr/local/lib/lfcs/ensure-host-access.sh --boot
+      fi

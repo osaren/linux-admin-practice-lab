@@ -1,0 +1,29 @@
+minimumLimaVersion: 2.1.3
+vmType: qemu
+arch: aarch64
+images:
+  - location: https://download.fedoraproject.org/pub/fedora/linux/releases/43/Cloud/aarch64/images/Fedora-Cloud-Base-Generic-43-1.6.aarch64.qcow2
+    digest: "sha256:66031aea9ec61e6d0d5bba12b9454e80ca94e8a79c913d37ded4c60311705b8b"
+    arch: aarch64
+os: Linux
+cpus: 2
+memory: 2GiB
+disk: 12GiB
+mounts: []
+containerd:
+  system: false
+  user: false
+ssh:
+  loadDotSSHPubKeys: false
+  forwardAgent: false
+  overVsock: false
+hostResolver:
+  enabled: true
+  ipv6: true
+portForwards:
+  # All lab endpoints are intentionally guest-local. SSH management is exempt
+  # from ignore rules, so suppress only unnecessary automatic service forwards.
+  - guestIP: "0.0.0.0"
+    guestIPMustBeZero: false
+    proto: any
+    ignore: true

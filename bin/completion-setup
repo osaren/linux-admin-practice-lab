@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+ROOT=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd)
+case ${1:-zsh} in
+  zsh) printf 'fpath=(%s/completions $fpath); autoload -Uz compinit; compinit\n' "$ROOT" ;;
+  bash) printf 'source %s/completions/lfcs.bash\n' "$ROOT" ;;
+  *) echo "Usage: ./bin/completion-setup zsh|bash" >&2; exit 2 ;;
+esac
